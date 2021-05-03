@@ -1,5 +1,6 @@
 package ru.kpfu.itis.trelloweb.controller;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,6 +28,9 @@ public class SignUpController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private ModelMapper modelMapper;
+
     @GetMapping
     public String getLogin(Model model) {
         model.addAttribute("userForm", new UserForm());
@@ -44,8 +48,11 @@ public class SignUpController {
             });
             model.addAttribute("userForm", form);
             return "sign_up";
+
         } else {
             userService.signUp(SignUpDTO.builder()
+                    .firstName(form.getFirstName())
+                    .secondName(form.getSecondName())
                     .email(form.getEmail())
                     .password(form.getPassword())
                     .build()

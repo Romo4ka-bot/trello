@@ -9,10 +9,13 @@ import ru.kpfu.itis.trelloapi.dto.UserDTO;
 import ru.kpfu.itis.trelloapi.dto.WorkspaceDTO;
 import ru.kpfu.itis.trelloimpl.entity.UserEntity;
 import ru.kpfu.itis.trelloimpl.entity.WorkspaceEntity;
-import ru.kpfu.itis.trelloimpl.entity.WorkspaceParticipantEntity;
+import ru.kpfu.itis.trelloimpl.entity.BoardParticipantEntity;
 import ru.kpfu.itis.trelloimpl.repository.UserRepository;
-import ru.kpfu.itis.trelloimpl.repository.WorkspaceParticipantRepository;
+import ru.kpfu.itis.trelloimpl.repository.BoardParticipantRepository;
 import ru.kpfu.itis.trelloimpl.repository.WorkspaceRepository;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Roman Leontev
@@ -30,9 +33,6 @@ public class TrelloWorkspaceService implements ru.kpfu.itis.trelloapi.service.Wo
     private WorkspaceRepository workspaceRepository;
 
     @Autowired
-    private WorkspaceParticipantRepository participantRepository;
-
-    @Autowired
     private ModelMapper modelMapper;
 
     @Override
@@ -43,7 +43,6 @@ public class TrelloWorkspaceService implements ru.kpfu.itis.trelloapi.service.Wo
         WorkspaceEntity workspaceEntity = WorkspaceEntity.builder()
                 .title(workspaceDTO.getTitle())
                 .description(workspaceDTO.getDescription())
-                .privacyType(WorkspaceEntity.PrivacyType.PRIVATE)
                 .user(userEntity)
                 .build();
 
@@ -58,21 +57,12 @@ public class TrelloWorkspaceService implements ru.kpfu.itis.trelloapi.service.Wo
     }
 
     @Override
-    public UserDTO addParticipant(UserDTO user, Long workspaceId) {
-
-        UserEntity userEntity = userRepository.findById(user.getId()).orElseThrow(IllegalArgumentException::new);
-        WorkspaceEntity workspace = workspaceRepository.findById(workspaceId).orElseThrow(IllegalAccessError::new);
-
-        WorkspaceParticipantEntity participant = WorkspaceParticipantEntity.builder()
-                .user(userEntity)
-                .workspace(workspace)
-                .build();
-
-        return modelMapper.map(participantRepository.save(participant).getUser(), UserDTO.class);
+    public void deleteById(Long id) {
+        workspaceRepository.deleteById(id);
     }
 
     @Override
-    public void delete(Long id) {
-        workspaceRepository.deleteById(id);
+    public WorkspaceDTO getById(Long workspaceId) {
+        return modelMapper.map(workspaceRepository.findById(workspaceId).orElseThrow(IllegalArgumentException::new), WorkspaceDTO.class);
     }
 }

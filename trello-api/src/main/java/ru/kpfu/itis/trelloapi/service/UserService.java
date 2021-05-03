@@ -8,4 +8,6 @@ public interface UserService {
     void signUp(SignUpDTO signUpDTO);
 
     UserDTO getByEmail(String email);
+
+    UserDTO getById(Long id);
 }

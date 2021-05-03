@@ -5,11 +5,11 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
+import java.util.Date;
 
 /**
  * @author Roman Leontev
- * 12:47 10.04.2021
+ * 09:29 20.04.2021
  * group 11-905
  */
 
@@ -17,10 +17,11 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class WorkspaceDTO {
+public class CardDTO {
     private Long id;
     private String title;
     private String description;
+    private Date createdAt;
+    private Long listCardId;
     private Long userId;
-    private List<BoardDTO> boards;
 }

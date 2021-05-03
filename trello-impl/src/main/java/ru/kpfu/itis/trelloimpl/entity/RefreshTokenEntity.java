@@ -8,11 +8,12 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.time.Instant;
 import java.util.Date;
 
 /**
  * @author Roman Leontev
- * 13:44 11.04.2021
+ * 12:50 26.04.2021
  * group 11-905
  */
 
@@ -21,20 +22,18 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@EntityListeners(AuditingEntityListener.class)
-@Table(name = "workspace_participant")
-public class WorkspaceParticipantEntity {
+@Table(name = "refresh_token")
+public class RefreshTokenEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @CreatedDate
+    private String token;
+    private Long validity;
+
     @Column(name = "created_at")
-    private Date createdAt;
+    private Instant createdAt;
 
-    @ManyToOne
+    @OneToOne
     private UserEntity user;
-
-    @ManyToOne
-    private WorkspaceEntity workspace;
 }

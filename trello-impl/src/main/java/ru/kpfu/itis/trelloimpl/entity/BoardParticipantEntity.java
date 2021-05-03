@@ -4,18 +4,15 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.List;
 
 /**
  * @author Roman Leontev
- * 19:42 09.04.2021
+ * 13:44 11.04.2021
  * group 11-905
  */
 
@@ -25,15 +22,11 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @EntityListeners(AuditingEntityListener.class)
-@Table(name = "workspace")
-public class WorkspaceEntity {
+@Table(name = "board_participant")
+public class BoardParticipantEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    private String title;
-
-    private String description;
 
     @CreatedDate
     @Column(name = "created_at")
@@ -42,6 +35,6 @@ public class WorkspaceEntity {
     @ManyToOne
     private UserEntity user;
 
-    @OneToMany(mappedBy = "workspace")
-    private List<BoardEntity> boards;
+    @ManyToOne
+    private BoardEntity board;
 }

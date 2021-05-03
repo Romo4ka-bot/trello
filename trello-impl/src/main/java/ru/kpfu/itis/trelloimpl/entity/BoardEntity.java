@@ -9,6 +9,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author Roman Leontev
@@ -32,9 +33,7 @@ public class BoardEntity {
     private String title;
 
     @Column(name = "background_img")
-    private String back_img;
-
-    private PermissionLevel permissionLevel;
+    private String backImg;
 
     @CreatedDate
     @Column(name = "created_at")
@@ -46,7 +45,6 @@ public class BoardEntity {
     @ManyToOne
     private UserEntity user;
 
-    public enum PermissionLevel {
-        PRIVATE, WORKSPACE, PUBLIC
-    }
+    @OneToMany(mappedBy = "board")
+    private List<ListCardEntity> listsCard;
 }

@@ -22,6 +22,7 @@ import javax.validation.constraints.Email;
 public class UserForm {
 
     private String firstName;
+    private String secondName;
 
     @Email(message = "{errors.incorrect.email}")
     @ValidUniqEmail(message = "{errors.repeated.email}")

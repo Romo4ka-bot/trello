@@ -25,8 +25,10 @@ public class UserEntity implements Serializable {
     private Long id;
 
     private String firstName;
+    private String secondName;
     private String email;
     private String password;
+    private String initial;
 
     @CreatedDate
     @Column(name = "created_at")

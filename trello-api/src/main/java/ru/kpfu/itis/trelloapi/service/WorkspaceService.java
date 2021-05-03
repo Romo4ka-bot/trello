@@ -5,6 +5,8 @@ import org.springframework.data.domain.Pageable;
 import ru.kpfu.itis.trelloapi.dto.UserDTO;
 import ru.kpfu.itis.trelloapi.dto.WorkspaceDTO;
 
+import java.util.List;
+
 /**
  * @author Roman Leontev
  * 20:59 10.04.2021
@@ -16,7 +18,7 @@ public interface WorkspaceService {
 
     Page<WorkspaceDTO> getAll(Pageable pageable);
 
-    UserDTO addParticipant(UserDTO user, Long workspaceId);
+    void deleteById(Long id);
 
-    void delete(Long id);
+    WorkspaceDTO getById(Long workspaceId);
 }

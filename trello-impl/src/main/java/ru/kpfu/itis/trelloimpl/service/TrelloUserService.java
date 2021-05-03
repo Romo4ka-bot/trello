@@ -30,8 +30,11 @@ public class TrelloUserService implements ru.kpfu.itis.trelloapi.service.UserSer
     public void signUp(SignUpDTO signUpDTO) {
 
         UserEntity newUser = UserEntity.builder()
+                .firstName(signUpDTO.getFirstName())
+                .secondName(signUpDTO.getSecondName())
                 .email(signUpDTO.getEmail())
                 .password(passwordEncoder.encode(signUpDTO.getPassword()))
+                .initial(signUpDTO.getFirstName().charAt(0) + String.valueOf(signUpDTO.getSecondName().charAt(0)))
                 .role(UserEntity.Role.USER)
                 .state(UserEntity.State.ACTIVE)
                 .build();
@@ -42,5 +45,10 @@ public class TrelloUserService implements ru.kpfu.itis.trelloapi.service.UserSer
     @Override
     public UserDTO getByEmail(String email) {
         return userRepository.findByEmail(email).map(userEntity -> modelMapper.map(userEntity, UserDTO.class)).orElse(null);
+    }
+
+    @Override
+    public UserDTO getById(Long id) {
+        return modelMapper.map(userRepository.findById(id).orElseThrow(IllegalArgumentException::new), UserDTO.class);
     }
 }

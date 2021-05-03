@@ -9,6 +9,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author Roman Leontev
@@ -37,4 +38,7 @@ public class ListCardEntity {
 
     @ManyToOne
     private BoardEntity board;
+
+    @OneToMany(mappedBy = "listCard")
+    private List<CardEntity> cards;
 }
