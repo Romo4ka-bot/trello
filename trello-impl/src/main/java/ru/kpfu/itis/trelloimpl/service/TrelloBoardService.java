@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 import ru.kpfu.itis.trelloapi.dto.BoardDTO;
 import ru.kpfu.itis.trelloapi.dto.UserDTO;
+import ru.kpfu.itis.trelloapi.dto.WorkspaceDTO;
 import ru.kpfu.itis.trelloapi.service.BoardService;
 import ru.kpfu.itis.trelloimpl.entity.BoardEntity;
 import ru.kpfu.itis.trelloimpl.entity.BoardParticipantEntity;
@@ -92,12 +93,22 @@ public class TrelloBoardService implements BoardService {
     }
 
     @Override
-    public List<UserDTO> getAllParticipants() {
-        List<BoardParticipantEntity> boardParticipantEntities = participantRepository.findAll();
+    public List<UserDTO> getAllParticipantsByBoardId(Long boardId) {
+        List<BoardParticipantEntity> boardParticipantEntities = participantRepository.findAllByBoardId(boardId);
         List<UserDTO> userDTOs = new ArrayList<>();
         for (BoardParticipantEntity boardParticipant : boardParticipantEntities) {
             userDTOs.add(modelMapper.map(boardParticipant.getUser(), UserDTO.class));
         }
         return userDTOs;
+    }
+
+    @Override
+    public List<BoardDTO> getAllByUserId(Long userId) {
+        List<BoardParticipantEntity> participantEntities = participantRepository.findAllByUserId(userId);
+        List<BoardDTO> boardDTOs = new ArrayList<>();
+        for (BoardParticipantEntity boardParticipant : participantEntities) {
+            boardDTOs.add(modelMapper.map(boardParticipant.getBoard(), BoardDTO.class));
+        }
+        return boardDTOs;
     }
 }

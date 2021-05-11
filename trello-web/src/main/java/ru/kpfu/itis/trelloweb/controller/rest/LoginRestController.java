@@ -1,5 +1,8 @@
 package ru.kpfu.itis.trelloweb.controller.rest;
 
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -8,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import ru.kpfu.itis.trelloapi.dto.AuthenticationRequestDTO;
+import ru.kpfu.itis.trelloapi.dto.ListCardDTO;
 import ru.kpfu.itis.trelloapi.dto.RefreshTokenDTO;
 import ru.kpfu.itis.trelloapi.dto.UserDTO;
 import ru.kpfu.itis.trelloapi.service.RefreshTokenService;
@@ -42,6 +46,8 @@ public class LoginRestController {
         this.refreshTokenService = refreshTokenService;
     }
 
+    @ApiOperation(value = "Аутенфикация пользователя")
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "Аутенфикацировал пользователя и выдал ему access-token и refresh-token")})
     @PostMapping("/api/login")
     public ResponseEntity<Map<String, String>> login(@RequestBody AuthenticationRequestDTO requestDto) {
         String email = requestDto.getEmail();

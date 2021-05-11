@@ -14,11 +14,19 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.client.endpoint.NimbusAuthorizationCodeTokenResponseClient;
+import org.springframework.security.oauth2.client.endpoint.OAuth2AccessTokenResponseClient;
+import org.springframework.security.oauth2.client.endpoint.OAuth2AuthorizationCodeGrantRequest;
+import org.springframework.security.oauth2.client.web.AuthorizationRequestRepository;
+import org.springframework.security.oauth2.client.web.HttpSessionOAuth2AuthorizationRequestRepository;
+import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequest;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import ru.kpfu.itis.trelloweb.security.filter.JwtFilter;
+import ru.kpfu.itis.trelloweb.security.oauth2.CustomOAuth2UserService;
+import ru.kpfu.itis.trelloweb.security.oauth2.OAuth2LoginSuccessHandler;
 
 import javax.sql.DataSource;
 
@@ -47,28 +55,43 @@ public class GlobalSecurityConfig {
         @Autowired
         private DataSource dataSource;
 
+        @Autowired
+        private CustomOAuth2UserService customOAuth2UserService;
+
+        @Autowired
+        private OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
+
         @Override
         protected void configure(HttpSecurity http) throws Exception {
             http.csrf().disable()
                     .authorizeRequests()
-                    .antMatchers("/login").permitAll()
-                    .antMatchers("/sign_up").permitAll()
-                    .antMatchers("/workspace").authenticated()
+                        .antMatchers("/oauth2/**").permitAll()
+                        .antMatchers("/login").permitAll()
+                        .antMatchers("/sign_up").permitAll()
+                        .antMatchers("/workspace").authenticated()
                     .and()
                     .formLogin()
-                    .loginPage("/login")
-                    .usernameParameter("email")
-                    .passwordParameter("pass")
+                        .loginPage("/login")
+                        .usernameParameter("email")
+                        .passwordParameter("pass")
+                        .defaultSuccessUrl("/workspace")
+                        .failureUrl("/login?error")
+                    .and()
+                    .oauth2Login()
+                        .loginPage("/login")
+                        .userInfoEndpoint().userService(customOAuth2UserService)
+                        .and()
+                        .successHandler(oAuth2LoginSuccessHandler)
                     .defaultSuccessUrl("/workspace")
                     .failureUrl("/login?error")
                     .and()
                     .logout()
-                    .logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"))
-                    .invalidateHttpSession(true)
-                    .deleteCookies("JSESSIONID")
+                        .logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"))
+                        .invalidateHttpSession(true)
+                        .deleteCookies("JSESSIONID")
                     .and()
                     .rememberMe()
-                    .rememberMeParameter("remember-me").tokenRepository(persistentTokenRepository());
+                        .rememberMeParameter("remember-me").tokenRepository(persistentTokenRepository());
         }
 
         @Override
@@ -86,7 +109,7 @@ public class GlobalSecurityConfig {
 
     @Order(2)
     @Configuration
-    public static class ApiSecurityConfiguration extends WebSecurityConfigurerAdapter{
+    public static class ApiSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
         @Autowired
         private PasswordEncoder passwordEncoder;
@@ -111,6 +134,7 @@ public class GlobalSecurityConfig {
             http
 //                    .antMatcher("/api/**")
                     .authorizeRequests()
+                    .antMatchers("/swagger-ui.html", "/v2/api-docs", "/webjars/", "/swagger-resources/").permitAll()
                     .antMatchers("/api/workspace").authenticated()
                     .antMatchers("/api/refresh").permitAll()
                     .antMatchers("/api/login").permitAll()

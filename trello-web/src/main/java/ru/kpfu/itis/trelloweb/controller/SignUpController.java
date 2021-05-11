@@ -2,6 +2,8 @@ package ru.kpfu.itis.trelloweb.controller;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.core.OAuth2AuthenticatedPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import ru.kpfu.itis.trelloapi.dto.SignUpDTO;
 import ru.kpfu.itis.trelloapi.service.UserService;
 import ru.kpfu.itis.trelloweb.form.UserForm;
+import ru.kpfu.itis.trelloweb.security.details.UserDetailsImpl;
 
 import javax.validation.Valid;
 import java.util.Objects;

@@ -26,7 +26,9 @@ public interface BoardService {
 
     UserDTO saveParticipant(Long userId, Long boardId);
 
-    void deleteParticipant(Long workspaceId, Long userId);
+    void deleteParticipant(Long boardId, Long userId);
 
-    List<UserDTO> getAllParticipants();
+    List<UserDTO> getAllParticipantsByBoardId(Long boardId);
+
+    List<BoardDTO> getAllByUserId(Long userId);
 }

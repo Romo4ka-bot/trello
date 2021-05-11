@@ -35,6 +35,12 @@
                     <span class="focus-input100"></span>
                 </div>
 
+                <div class="wrap-input100 validate-input m-b-16" data-validate="Введите Вашу фамилию">
+                    <@spring.formInput "userForm.secondName" "name='secondName' class='input100 input' type='text' placeholder='Фамилия'"/>
+                    <@spring.showErrors "<br>" "error"/>
+                    <span class="focus-input100"></span>
+                </div>
+
                 <div class="wrap-input100 validate-input m-b-16" data-validate="Введите почту">
                     <@spring.formInput "userForm.email" "name='email' class='input100 input' type='email' placeholder='Почта'"/>
                     <@spring.showErrors "<br>" "error"/>

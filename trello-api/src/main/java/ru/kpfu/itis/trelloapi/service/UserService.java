@@ -10,4 +10,8 @@ public interface UserService {
     UserDTO getByEmail(String email);
 
     UserDTO getById(Long id);
+
+    void createUserWithGoogleAuth(String email, String name, String provider);
+
+    void updateUserWithGoogleAuth(UserDTO userDTO, String name, String provider);
 }

@@ -13,4 +13,6 @@ import ru.kpfu.itis.trelloimpl.entity.CardEntity;
 
 public interface CardRepository extends JpaRepository<CardEntity, Long> {
     public Page<CardEntity> findAllById(Long id, Pageable pageable);
+
+    void deleteAllByListCardId(Long listCardId);
 }

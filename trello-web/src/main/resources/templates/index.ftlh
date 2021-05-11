@@ -6,7 +6,23 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
-    <link rel="stylesheet" href="../static/css/style.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- Begin Talk-Me {literal} -->
+    <script type='text/javascript'>
+        (function(d, w, m) {
+            window.supportAPIMethod = m;
+            var s = d.createElement('script');
+            s.type ='text/javascript'; s.id = 'supportScript'; s.charset = 'utf-8';
+            s.async = true;
+            var id = '97cba5d7e614971f74710baf855d802d';
+            s.src = 'https://lcab.talk-me.ru/support/support.js?h='+id;
+            var sc = d.getElementsByTagName('script')[0];
+            w[m] = w[m] || function() { (w[m].q = w[m].q || []).push(arguments); };
+            if (sc) sc.parentNode.insertBefore(s, sc);
+            else d.documentElement.firstChild.appendChild(s);
+        })(document, window, 'TalkMe');
+    </script>
+    <!-- {/literal} End Talk-Me -->
 </head>
 <body>
 
@@ -210,8 +226,8 @@
                 <span class="logo__name">Trello</span>
             </div>
             <nav class="home_nav">
-                <a href="#" class="home__login--link">Войти</a>
-                <a href="#" class="home__registration--link">Регистрация</a>
+                <a href="/login" class="home__login--link">Войти</a>
+                <a href="/sign_up" class="home__registration--link">Регистрация</a>
             </nav>
         </div>
     </header>
@@ -227,12 +243,12 @@
                 способом вместе с Trello
             </p>
             <div>
-                <a href="#" class="home__lets--go">Давай начнем!</a>
+                <a href="/workspace" class="home__lets--go">Давай начнем!</a>
             </div>
         </div>
     </div>
 </section>
 
-<script src="../static/javascripts/app.js"></script>
+<script src="/javascripts/app.js"></script>
 </body>
 </html>

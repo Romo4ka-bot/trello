@@ -1,10 +1,14 @@
 package ru.kpfu.itis.trelloweb.controller.rest;
 
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import ru.kpfu.itis.trelloapi.dto.ListCardDTO;
 import ru.kpfu.itis.trelloapi.dto.RefreshTokenDTO;
 import ru.kpfu.itis.trelloapi.dto.UserDTO;
 import ru.kpfu.itis.trelloapi.service.RefreshTokenService;
@@ -29,6 +33,8 @@ public class RefreshTokenRestController {
     @Autowired
     private JwtAuthenticationProvider jwtAuthenticationProvider;
 
+    @ApiOperation(value = "Обновление access-token по refresh-token")
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "Обновил access-token и выдал новый refresh-token")})
     @PostMapping("/api/refresh")
     public ResponseEntity<Map<String, String>> changeAccessToken(@RequestBody RefreshTokenDTO refreshToken) {
         Map<String, String> response = new HashMap<>();

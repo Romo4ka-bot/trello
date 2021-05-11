@@ -21,4 +21,8 @@ public interface WorkspaceService {
     void deleteById(Long id);
 
     WorkspaceDTO getById(Long workspaceId);
+
+    List<WorkspaceDTO> getAllByUserId(Long userId);
+
+    UserDTO saveParticipant(Long userId, Long workspaceId);
 }

@@ -3,11 +3,13 @@ package ru.kpfu.itis.trelloweb.security.provider;
 import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
+import ru.kpfu.itis.trelloimpl.entity.UserEntity;
 import ru.kpfu.itis.trelloweb.security.config.JwtProperties;
 
 import javax.servlet.http.HttpServletRequest;

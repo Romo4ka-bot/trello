@@ -11,6 +11,7 @@ import ru.kpfu.itis.trelloapi.service.ListCardService;
 import ru.kpfu.itis.trelloimpl.entity.BoardEntity;
 import ru.kpfu.itis.trelloimpl.entity.ListCardEntity;
 import ru.kpfu.itis.trelloimpl.repository.BoardRepository;
+import ru.kpfu.itis.trelloimpl.repository.CardRepository;
 import ru.kpfu.itis.trelloimpl.repository.ListCardRepository;
 
 import java.util.ArrayList;
@@ -33,6 +34,9 @@ public class TrelloListCardService implements ListCardService {
 
     @Autowired
     private BoardRepository boardRepository;
+
+    @Autowired
+    private CardRepository cardRepository;
 
     @Override
     public Page<ListCardDTO> getAll(Pageable pageable) {
@@ -69,6 +73,7 @@ public class TrelloListCardService implements ListCardService {
 
     @Override
     public void deleteById(Long id) {
+        cardRepository.deleteAllByListCardId(id);
         listCardRepository.deleteById(id);
     }
 }

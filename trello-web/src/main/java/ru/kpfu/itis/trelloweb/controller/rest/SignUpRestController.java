@@ -2,6 +2,9 @@ package ru.kpfu.itis.trelloweb.controller.rest;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import ru.kpfu.itis.trelloapi.dto.ListCardDTO;
 import ru.kpfu.itis.trelloapi.dto.SignUpDTO;
 import ru.kpfu.itis.trelloapi.service.UserService;
 import ru.kpfu.itis.trelloweb.form.UserForm;
@@ -33,6 +37,8 @@ public class SignUpRestController {
     @Autowired
     private ObjectMapper objectMapper;
 
+    @ApiOperation(value = "Регистрация пользователя")
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "Зарегистрировал пользователя"), @ApiResponse(code = 400, message = "Ошибка в заполненной форме")})
     @PostMapping("/api/sign_up")
     public ResponseEntity<?> signUp(@Valid @RequestBody UserForm form, BindingResult bindingResult) {
         Map<String, String> response = new HashMap<>();

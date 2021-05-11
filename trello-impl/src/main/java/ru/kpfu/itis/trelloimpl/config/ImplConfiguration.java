@@ -16,12 +16,13 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @ComponentScan({
-        "ru.kpfu.itis.trelloimpl.service"
+        "ru.kpfu.itis.trelloimpl.service",
+        "ru.kpfu.itis.trelloimpl.aspect"
 })
 @EnableJpaRepositories(basePackages = "ru.kpfu.itis.trelloimpl.repository")
 @EntityScan(basePackages = "ru.kpfu.itis.trelloimpl.entity")
 @EnableJpaAuditing
-public class ImplConfiguration implements WebMvcConfigurer {
+public class ImplConfiguration implements WebMvcConfigurer  {
 
     @Override
     public MessageCodesResolver getMessageCodesResolver() {

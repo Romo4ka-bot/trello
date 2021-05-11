@@ -17,4 +17,8 @@ public interface CardService {
     CardDTO save(CardDTO card);
 
     void deleteById(Long id);
+
+    CardDTO getById(Long cardId);
+
+    CardDTO update(CardDTO card);
 }

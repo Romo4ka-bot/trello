@@ -62,4 +62,15 @@ public class TrelloCardService implements CardService {
     public void deleteById(Long id) {
         cardRepository.deleteById(id);
     }
+
+    @Override
+    public CardDTO getById(Long cardId) {
+        return modelMapper.map(cardRepository.findById(cardId).orElseThrow(IllegalArgumentException::new), CardDTO.class);
+    }
+
+    @Override
+    public CardDTO update(CardDTO card) {
+        CardEntity cardEntity = modelMapper.map(card, CardEntity.class);
+        return modelMapper.map(cardRepository.save(cardEntity), CardDTO.class);
+    }
 }

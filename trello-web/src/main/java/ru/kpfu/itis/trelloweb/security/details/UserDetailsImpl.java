@@ -15,7 +15,7 @@ import java.util.Collections;
  * group 11-905
  */
 
-public class UserDetailsImpl implements UserDetails {
+public class UserDetailsImpl implements CustomUserDetails {
 
     private UserEntity user;
 
@@ -59,14 +59,9 @@ public class UserDetailsImpl implements UserDetails {
         return user.isActive();
     }
 
-    public UserDTO getUserDTO() {
-        return UserDTO.builder()
-                .id(user.getId())
-                .firstName(user.getFirstName())
-                .secondName(user.getSecondName())
-                .initial(user.getInitial())
-                .email(user.getEmail())
-                .build();
+    @Override
+    public String getEmail() {
+        return user.getEmail();
     }
 }
 

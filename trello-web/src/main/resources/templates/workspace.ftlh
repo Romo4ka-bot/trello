@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" href="../static/css/style.css">
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
 
@@ -22,27 +22,7 @@
     </symbol>
 </svg>
 <section class="main__section">
-    <header class="main__header">
-        <div class="main__header--right">
-            <button class="main__header--block">
-                Дом
-            </button>
-            <button class="main__header--dashboard">
-                <span class="header__dashboard-text">Доски</span>
-            </button>
-        </div>
-        <div class="main__header--middle">
-            Trello
-        </div>
-        <div class="main__header--left">
-            <button class="main__header--create">
-                Создать доску
-            </button>
-            <button class="main__header--username">
-                ДГ
-            </button>
-        </div>
-    </header>
+    <#include "header.ftlh">
     <section class="main__content">
         <div class="main__content--left">
             <button class="main__content--item">
@@ -50,89 +30,76 @@
             </button>
             <div class="main__content--block">
                 <div class="main__content--title">
-                    <span class="main__content--titleText">Команды</span>
+                    <span class="main__content--titleText">Рабочие пространства</span>
                     <button class="main__content--add">
                         <svg class="symbol__plus">
                             <use xlink:href="#plus"></use>
                         </svg>
                     </button>
                 </div>
-                <button class="main__content--item">
-                    <span class="main__content--text">Best Coders</span>
-                </button>
+                <#if workspaces??>
+                    <#list workspaces as list>
+                        <button class="main__content--item">
+                            <span class="main__content--text">${list.title}</span>
+                        </button>
+                    </#list>
+                </#if>
             </div>
         </div>
 
 
         <div class="main__content--right">
-            <div class="main__content--group">
-                <div class="content__group--title">
-                    <span class="content__group--text">Название пространства</span>
-                </div>
-                <div class="content__group--cards">
-                    <a href="#" class="content__group--card notext-decoration">
-                        Best coders table
-                    </a>
-                    <a href="#" class="content__group--card notext-decoration content__group_create__card">
-                        Создать доску
-                    </a>
-                </div>
-            </div>
-            <div class="main__content--group">
-                <div class="content__group--title">
-                    <span class="content__group--text">Название пространства</span>
-                </div>
-                <div class="content__group--cards">
-                    <a href="#" class="content__group--card notext-decoration">
-                        Best coders table
-                    </a>
-                    <a href="#" class="content__group--card notext-decoration content__group_create__card">
-                        Создать доску
-                    </a>
-
-                </div>
-            </div>
+            <#if workspaces??>
+                <#list workspaces as list>
+                    <div class="main__content--group">
+                        <div class="content__group--title">
+                            <span class="content__group--text">${list.title}</span>
+                        </div>
+                        <div class="content__group--cards">
+                            <#list list.boards as list2>
+                                <input type="hidden" id="boardId" value="${list2.id}">
+                                <a href="/workspace/${list.id}/board/${list2.id}"
+                                   class="content__group--card notext-decoration">
+                                    ${list2.title}
+                                </a>
+                            </#list>
+                            <a href="#"
+                               class="content__group--card notext-decoration content__group_create__card main__header--create" id="${list.id}">
+                                Создать доску
+                            </a>
+                        </div>
+                    </div>
+                </#list>
+            <#else>
+                <p>У вас нет рабочих пространств</p>
+            </#if>
         </div>
     </section>
 </section>
-<!--<app-create-board></app-create-board>-->
 
-<section class="menu__section">
-    <header class="menu__header">
-        Учетная запись
-        <svg class="symbol__close">
-            <use xlink:href="#close"></use>
-        </svg>
-    </header>
-    <div class="menu__user">
-        <button class="main__header--username menu__user--avatar">
-            ДГ
-        </button>
-        <div class="menu__user--info">
-            <div class="menu__user-name">Дмитрий Герасимов</div>
-            <div class="menu__user-email">dmitry.itis.gg@gmail.com</div>
-        </div>
-    </div>
-    <ul class="menu__user--ul">
-        <li class="menu__user--li">Выйти</li>
-    </ul>
-</section>
+<#include "menu.ftlh">
 
-<div class="create_team--window">
+<div id="createTeam" class="create_team--window">
     <div class="create_team--modal">
         <svg class="symbol__close--modal">
             <use xlink:href="#close"></use>
         </svg>
         <div class="team__modal--info">
-            <form class="team__modal--form">
+            <form action="/workspace" method="post" class="team__modal--form">
                 <span class="team__modal--title">Создайте команду</span>
                 <span class="team__modal--text">Повысьте производительность: участники команды смогут получать удобный доступ ко всем доскам.</span>
                 <div class="modal__group">
                     <label for="name_team" class="modal__team--label">Имя команды</label>
-                    <input type="text" id="name_team" class="modal__team--input" placeholder="Введите название команды">
+                    <input type="text" name="title" id="name_team" class="modal__team--input"
+                           placeholder="Введите название команды">
                     <div class="modal__team-undertext">Укажите название вашей команды, компании или организации.</div>
                 </div>
-
+                <div class="modal__group">
+                    <label for="name_team" class="modal__team--label">Описание команды</label>
+                    <input type="text" name="description" id="name_team" class="modal__team--input"
+                           placeholder="Введите описание команды">
+                    <div class="modal__team-undertext">Укажите описание вашей команды, компании или организации.</div>
+                </div>
                 <button class="modal__team--btn">Создать команду</button>
             </form>
         </div>
@@ -145,23 +112,15 @@
             <use xlink:href="#close"></use>
         </svg>
         <div class="team__modal--info">
-            <form class="team__modal--form">
+            <form action="" method="post" id="form_create_board" class="team__modal--form">
                 <span class="team__modal--title">Создайте доску</span>
                 <span class="team__modal--text">Повысьте удобство: создайте доску для комфортной работы.</span>
                 <div class="modal__group">
                     <label for="name_board" class="modal__team--label">Название доски</label>
-                    <input type="text" id="name_board" class="modal__team--input" placeholder="Введите название доски">
+                    <input type="text" id="name_board" class="modal__team--input" name="title"
+                           placeholder="Введите название доски">
                     <div class="modal__team-undertext">Укажите название доски.</div>
                 </div>
-
-                <div class="modal__group">
-                    <label for="name_team" class="modal__team--label">Выберите команду</label>
-                    <select name="name_team" class="modal__team--input" id="name_board-team">
-                        <option value="Выберите команду">Выберите команду</option>
-                        <option value="Best coders">Best coders</option>
-                    </select>
-                </div>
-
                 <button class="modal__team--btn">Создать доску</button>
             </form>
         </div>
@@ -173,7 +132,7 @@
     const menu = $('.menu__section');
     const btnMenu = $('.main__header--username');
     const btnPlus = $('.main__content--add');
-    const teamWindow = $('.create_team--window');
+    const teamWindow = $('#createTeam');
     const closeBtn = $('.symbol__close--modal');
     const closeBtnMenu = $('.symbol__close');
     const boardModal = $('#createBoard');
@@ -190,17 +149,20 @@
 
     closeBtn.click(function () {
         teamWindow.removeClass('team__window--active');
+        boardModal.removeClass('team__window--active')
     });
 
     closeBtnMenu.click(function () {
         menu.removeClass('menu__active');
     });
 
-    btnCreateBoard.click(function (){
+    btnCreateBoard.click(function () {
         menu.removeClass('menu__active');
         boardModal.addClass('team__window--active');
+        let workspaceId = this.id;
+        document.querySelector('#form_create_board').setAttribute('action', 'workspace/' + workspaceId + '/board');
     });
 </script>
-<script src="../static/javascripts/app.js"></script>
+<script src="/javascripts/app.js"></script>
 </body>
 </html>

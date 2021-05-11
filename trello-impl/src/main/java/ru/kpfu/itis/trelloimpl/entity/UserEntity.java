@@ -28,7 +28,7 @@ public class UserEntity implements Serializable {
     private String secondName;
     private String email;
     private String password;
-    private String initial;
+    private String initials;
 
     @CreatedDate
     @Column(name = "created_at")
@@ -40,6 +40,10 @@ public class UserEntity implements Serializable {
     @Enumerated(value = EnumType.STRING)
     private Role role;
 
+    @Enumerated(value = EnumType.STRING)
+    @Column(name = "auth_provider")
+    private AuthenticationProvider authProvider;
+
     public enum Role {
         USER, ADMIN
     }
@@ -48,6 +52,9 @@ public class UserEntity implements Serializable {
         ACTIVE, BANNED
     }
 
+    public enum AuthenticationProvider {
+        LOCAL, GOOGLE
+    }
 
     public boolean isActive() {
         return this.state == State.ACTIVE;

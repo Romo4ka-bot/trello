@@ -37,6 +37,8 @@
                     </button>
                 </div>
 
+                <div style="display: flex; justify-content: center; margin-top: 10px"><a href="/oauth2/authorization/google">Авторизоваться через Google</a></div>
+
                 <div class="flex-col-c p-t-170 p-b-40">
 						<span class="txt1 p-b-9">
 							Еще не зарегистрировались?
